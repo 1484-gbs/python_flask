@@ -1,0 +1,166 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 40px);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#chat-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    overflow: hidden;
+    /* スクロールバーのスタイルを調整するために必要 */
+}
+
+#chat-window {
+    padding: 10px;
+    overflow-y: auto;
+    /* チャットウィンドウが縦にスクロールするように */
+    flex-grow: 1;
+    /* 残りのスペースを埋める */
+    display: flex;
+    /* メッセージを縦に並べるため */
+    flex-direction: column;
+}
+
+.message-container {
+    display: flex;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.message {
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 75%;
+    /* 幅を調整 */
+    word-wrap: break-word;
+    /* 長い単語の折り返し */
+}
+
+.message.sent {
+    background-color: #dcf8c6;
+    /* 緑がかった色 */
+    margin-left: auto;
+    /* 右寄せ */
+    text-align: right;
+    border-bottom-right-radius: 2px;
+    /* 角を調整 */
+}
+
+.message.received {
+    background-color: #e0e0e0;
+    /* 灰色 */
+    margin-right: auto;
+    /* 左寄せ */
+    text-align: left;
+    border-bottom-left-radius: 2px;
+    /* 角を調整 */
+}
+
+#chat-form {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    /* 入力フォームの上に線 */
+    background-color: #f9f9f9;
+}
+
+#chat-form input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    /* 丸みを帯びた入力フィールド */
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+#chat-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    /* 丸みを帯びたボタン */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+#chat-form button:hover {
+    background-color: #0056b3;
+}
+
+/* スクロールバーのスタイル（WebKit系ブラウザ向け） */
+#chat-window::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chat-window::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#chat-window::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+#chat-window::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* スピナーコンテナの基本スタイル（通常は非表示） */
+.spinner {
+    display: none;
+    /* 通常は非表示 */
+    margin-top: 1em;
+    text-align: center;
+}
+
+/* htmx-request クラスが付与されたときに表示 */
+.spinner.htmx-request {
+    display: block;
+    /* ローディング中に表示 */
+}
+
+/* スピナー自体のスタイル（例: Fading Circle） */
+.spinner .dot1,
+.spinner .dot2 {
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+    border-radius: 100%;
+    display: inline-block;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .dot2 {
+    animation-delay: -0.9s;
+}
+
+@keyframes sk-bouncedelay {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1.0);
+    }
+}

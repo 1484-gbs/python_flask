@@ -11,4 +11,6 @@ def index():
         "<a href='/hoge'>Hellow World</a>"
         + "<br>"
         + str(datetime.datetime.now(ZoneInfo("Asia/Tokyo")))
+        + "<br>"
+        + "<a href='/chat'>chat</a>"
     )

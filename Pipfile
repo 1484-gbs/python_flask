@@ -6,9 +6,14 @@ name = "pypi"
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
+google-generativeai = "*"
+python-dotenv = "*"
+pillow = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.13"
 
+[scripts]
+list = "pip list"
