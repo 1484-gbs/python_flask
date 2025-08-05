@@ -1,10 +1,13 @@
-from flask_app.models.gemini import Gemini
+from flask_app.models.gemini import IGemini
 
 
 class PostChatSendMessage:
+    def __init__(self, gemini: IGemini):
+        self.gemini = gemini
+
     def execute(self, user_message):
         try:
-            response = Gemini().send_message(user_message)
+            response = self.gemini.send_message(user_message)
             gemini_response = response.text
             return f'<div class="message received">Gemini: {gemini_response.replace("。","。<br/>")}</div>'
         except Exception as e:

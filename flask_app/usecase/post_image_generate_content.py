@@ -1,12 +1,15 @@
-from flask_app.models.gemini import Gemini
+from flask_app.models.gemini import IGemini
 from PIL import Image
 
 
 class PostImageGenerateContent:
+    def __init__(self, gemini: IGemini):
+        self.gemini = gemini
+
     def execute(self, file):
         try:
             img = Image.open(file)
-            response = Gemini().generate_content_img(img=img)
+            response = self.gemini.generate_content_img(img=img)
             analysis_result = response.text
             return f'<div class="message received">Gemini: {analysis_result.replace("。","。<br/>")}</div>'
         except Exception as e:
