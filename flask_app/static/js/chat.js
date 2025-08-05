@@ -1,0 +1,12 @@
+add_message = function () {
+    add_input(document.getElementById('message').value)
+}
+
+add_filename = function () {
+    add_input(document.getElementById('file').files[0].name)
+}
+
+add_input = function (input_value) {
+    let message = document.getElementById('chat-window');
+    message.innerHTML += `<div class="message sent">${input_value}</div>`;
+}

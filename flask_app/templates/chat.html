@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini チャットボット</title>
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -17,13 +18,14 @@
         </div>
 
         <form id="chat-form" hx-post="/chat" hx-target="#chat-window" hx-indicator="#loading-spinner"
-            hx-swap="beforeend" hx-on::after-request="this.reset()">
-            <input type="text" name="message" placeholder="メッセージを入力..." autocomplete="off" required>
+            hx-swap="beforeend" hx-on::before-request="add_message()" hx-on::after-request="this.reset()">
+            <input type="text" id="message" name="message" placeholder="メッセージを入力..." autocomplete="off" required>
             <button type="submit">送信</button>
         </form>
         <form enctype="multipart/form-data" id="chat-form" hx-post="/image" hx-target="#chat-window"
-            hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::after-request="this.reset()">
-            <input type="file" name="file" required>
+            hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_filename()"
+            hx-on::after-request="this.reset()">
+            <input type="file" name="file" id="file" required>
             <button type="submit">送信</button>
         </form>
         <div id="loading-spinner" class="spinner">
