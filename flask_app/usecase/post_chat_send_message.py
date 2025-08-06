@@ -11,4 +11,4 @@ class PostChatSendMessage:
             gemini_response = response.text
             return f'<div class="message received">Gemini: {gemini_response.replace("。","。<br/>")}</div>'
         except Exception as e:
-            return f"<div>エラーが発生しました: {e}</div>"
+            return f"<div class='message error'>エラーが発生しました: {e}</div>"

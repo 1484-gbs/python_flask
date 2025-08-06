@@ -61,8 +61,16 @@ h1 {
 }
 
 .message.received {
-    background-color: #e0e0e0;
-    /* 灰色 */
+    background-color: #bedbfd;
+    margin-right: auto;
+    /* 左寄せ */
+    text-align: left;
+    border-bottom-left-radius: 2px;
+    /* 角を調整 */
+}
+
+.message.error {
+    background-color: #f07474;
     margin-right: auto;
     /* 左寄せ */
     text-align: left;

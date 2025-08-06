@@ -13,4 +13,4 @@ class PostImageGenerateContent:
             analysis_result = response.text
             return f'<div class="message received">Gemini: {analysis_result.replace("。","。<br/>")}</div>'
         except Exception as e:
-            return f"<div>エラーが発生しました: {e}</div>"
+            return f"<div class='message error'>エラーが発生しました: {e}</div>"
