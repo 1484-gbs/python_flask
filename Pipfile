@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 google-generativeai = "*"
 python-dotenv = "*"
 pillow = "*"
+markdown = "*"
 
 [dev-packages]
 

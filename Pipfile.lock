@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8d8ac64ee73ee89646c6cb6b9d6833aa1988bf4cde079bfe7e345a9035e569a5"
+            "sha256": "51489552128b32f1e6d3dc1826885ae039bb001483d57ed96a4d597c85751133"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -153,14 +153,6 @@
             ],
             "markers": "python_version >= '3.10'",
             "version": "==8.2.1"
-        },
-        "colorama": {
-            "hashes": [
-                "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44",
-                "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
-            ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6'",
-            "version": "==0.4.6"
         },
         "flask": {
             "hashes": [
@@ -394,6 +386,15 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==3.1.6"
+        },
+        "markdown": {
+            "hashes": [
+                "sha256:247b9a70dd12e27f67431ce62523e675b866d254f900c4fe75ce3dda62237c45",
+                "sha256:5c83764dbd4e00bdd94d85a19b8d55ccca20fe35b2e678a1422b380324dd5f24"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==3.8.2"
         },
         "markupsafe": {
             "hashes": [

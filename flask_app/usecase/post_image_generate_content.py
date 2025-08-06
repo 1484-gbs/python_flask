@@ -1,5 +1,6 @@
 from flask_app.models.gemini import IGemini
 from PIL import Image
+import markdown
 
 
 class PostImageGenerateContent:
@@ -11,6 +12,7 @@ class PostImageGenerateContent:
             img = Image.open(file)
             response = self.gemini.generate_content_img(img=img)
             analysis_result = response.text
-            return f'<div class="message received">Gemini: {analysis_result.replace("。","。<br/>")}</div>'
+            return f'<div class="message received">\
+                Gemini: {markdown.Markdown().convert(analysis_result)}</div>'
         except Exception as e:
             return f"<div class='message error'>エラーが発生しました: {e}</div>"

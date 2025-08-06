@@ -1,4 +1,5 @@
 from flask_app.models.gemini import IGemini
+import markdown
 
 
 class PostChatSendMessage:
@@ -9,6 +10,7 @@ class PostChatSendMessage:
         try:
             response = self.gemini.send_message(user_message)
             gemini_response = response.text
-            return f'<div class="message received">Gemini: {gemini_response.replace("。","。<br/>")}</div>'
+            return f'<div class="message received">\
+                Gemini: {markdown.Markdown().convert(gemini_response)}</div>'
         except Exception as e:
             return f"<div class='message error'>エラーが発生しました: {e}</div>"
