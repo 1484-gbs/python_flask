@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
-
+app.secret_key = os.getenv("APP_SECRET_KEY")
 
 from flask_app.controller.index import func_index
 from flask_app.controller.hoge import func_hoge
