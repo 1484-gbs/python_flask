@@ -8,5 +8,5 @@ add_filename = function () {
 
 add_input = function (input_value) {
     let message = document.getElementById('chat-window');
-    message.innerHTML += `<div class="message sent">${input_value}</div>`;
+    message.innerHTML += `<div class="message sent"><p>${input_value}</p></div>`;
 }

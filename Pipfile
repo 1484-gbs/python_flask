@@ -10,6 +10,7 @@ google-generativeai = "*"
 python-dotenv = "*"
 pillow = "*"
 markdown = "*"
+pynamodb = "*"
 
 [dev-packages]
 

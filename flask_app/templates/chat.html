@@ -15,12 +15,16 @@
 
     <div id="chat-container">
         <div id="chat-window">
+            {% for h in history%}
+            <div class="message {{h.style}}">{{h.iam}}{{h.message | safe}}</div>
+            {% endfor %}
         </div>
 
         <form id="chat-form" hx-post="/chat" hx-target="#chat-window" hx-indicator="#loading-spinner"
             hx-swap="beforeend" hx-on::before-request="add_message()" hx-on::after-request="this.reset()">
             <input type="text" id="message" name="message" placeholder="メッセージを入力..." autocomplete="off" required>
             <button type="submit">送信</button>
+            <input type="hidden" id="chat_id" name="chat_id" value='{{chat_id}}'>
         </form>
         <form enctype="multipart/form-data" id="chat-form" hx-post="/image" hx-target="#chat-window"
             hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_filename()"

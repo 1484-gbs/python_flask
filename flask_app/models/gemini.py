@@ -1,6 +1,8 @@
 from abc import ABCMeta, abstractmethod
 import os
+from typing import Any, List
 import google.generativeai as genai
+from google.generativeai.protos import Content, Part
 
 
 class IGemini(metaclass=ABCMeta):
@@ -10,6 +12,14 @@ class IGemini(metaclass=ABCMeta):
 
     @abstractmethod
     def generate_content_img(self, img, q):
+        pass
+
+    @abstractmethod
+    def history_to_json(self, history):
+        pass
+
+    @abstractmethod
+    def json_to_history(self, json):
         pass
 
     def set_model(self, version):
@@ -34,6 +44,27 @@ class Gemini2_0(IGemini):
 
     def generate_content_img(self, img, q="この画像について詳しく説明してください。"):
         return self.model.generate_content([q, img])
+
+    def history_to_json(self, history):
+        return [
+            {
+                "role": h.role,
+                "parts": [
+                    {"text": part.text} if hasattr(part, "text") else part
+                    for part in h.parts
+                ],
+            }
+            for h in history
+        ]
+
+    def json_to_history(self, json):
+        return [
+            Content(
+                role=item["role"],
+                parts=[Part(text=part["text"]) for part in item["parts"]],
+            )
+            for item in json
+        ]
 
 
 class Gemini1_5(IGemini):

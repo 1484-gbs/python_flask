@@ -4,3 +4,4 @@
 - flask
 - htmx
 - google-generativeai
+- pynamodb
