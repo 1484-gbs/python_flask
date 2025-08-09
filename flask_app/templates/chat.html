@@ -30,6 +30,7 @@
             hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_filename()"
             hx-on::after-request="this.reset()">
             <input type="file" name="file" id="file" required>
+            <input type="text" id="q" name="q" placeholder="質問を入力..." autocomplete="off">
             <button type="submit">送信</button>
         </form>
         <div id="loading-spinner" class="spinner">

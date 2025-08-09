@@ -7,10 +7,10 @@ class PostImageGenerateContent:
     def __init__(self, gemini: IGemini):
         self.gemini = gemini
 
-    def execute(self, file):
+    def execute(self, file, q=None):
         try:
             img = Image.open(file)
-            response = self.gemini.generate_content_img(img=img)
+            response = self.gemini.generate_content_img(img=img, q=q)
             analysis_result = response.text
             return f'<div class="message received">\
                 Gemini: {markdown.Markdown().convert(analysis_result)}</div>'

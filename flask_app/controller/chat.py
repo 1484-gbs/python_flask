@@ -38,6 +38,6 @@ def post_chat():
 def post_image():
     if "file" not in request.files:
         return f'<div class="message error">ファイルが選択されていません。</div>'
-
     file = request.files["file"]
-    return PostImageGenerateContent(gemini=gemini).execute(file)
+    q = request.form.get("q") if request.form.get("q") else None
+    return PostImageGenerateContent(gemini=gemini).execute(file=file, q=q)
