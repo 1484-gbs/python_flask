@@ -1,5 +1,5 @@
 from pynamodb.models import Model
-from pynamodb.attributes import UnicodeAttribute, UTCDateTimeAttribute
+from pynamodb.attributes import UnicodeAttribute, UTCDateTimeAttribute, JSONAttribute
 import os
 import datetime
 
@@ -16,7 +16,7 @@ class ChatHistory(Model):
         ttl_attribute = "expires"
 
     uuid = UnicodeAttribute(hash_key=True)
-    history = UnicodeAttribute()
+    history = JSONAttribute()
     expires = UTCDateTimeAttribute()
 
     def save(self):

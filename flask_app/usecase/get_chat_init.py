@@ -1,4 +1,3 @@
-import json
 import uuid
 from flask import abort
 import markdown
@@ -21,17 +20,15 @@ class GetChatInit:
         except DoesNotExist:
             abort(404)
 
-        histoty = self.gemini.json_to_history(json.loads(chat_history.history))
-
         result = [
             dict(
-                style="sent" if h.role == "user" else "received",
-                iam="" if h.role == "user" else "Gemini:",
+                style="sent" if h["role"] == "user" else "received",
+                iam="" if h["role"] == "user" else "Gemini:",
                 message=markdown.Markdown().convert(
-                    "".join([part.text for part in h.parts])
+                    "".join([part["text"] for part in h["parts"]])
                 ),
             )
-            for h in histoty
+            for h in chat_history.history
         ]
 
         return chat_id, result

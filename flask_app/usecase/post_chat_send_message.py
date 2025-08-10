@@ -1,7 +1,6 @@
 from flask_app.models.dynamodb.chat_history import ChatHistory
 from flask_app.models.gemini import IGemini
 import markdown
-import json
 from pynamodb.exceptions import DoesNotExist
 
 
@@ -20,15 +19,13 @@ class PostChatSendMessage:
                 chat_history.uuid = chat_id
 
             if chat_history.history:
-                history = self.gemini.json_to_history(json.loads(chat_history.history))
+                history = self.gemini.json_to_history(chat_history.history)
 
             response = self.gemini.send_message(user_message, history)
             gemini_response = response.text
 
             # チャット履歴保存
-            chat_history.history = json.dumps(
-                self.gemini.history_to_json(self.gemini.chat.history)
-            )
+            chat_history.history = self.gemini.history_to_json(self.gemini.chat.history)
             chat_history.save()
 
             return f'<div class="message received">\
