@@ -1,5 +1,10 @@
+from zoneinfo import ZoneInfo
 from pynamodb.models import Model
-from pynamodb.attributes import UnicodeAttribute, UTCDateTimeAttribute, JSONAttribute
+from pynamodb.attributes import (
+    UnicodeAttribute,
+    JSONAttribute,
+    TTLAttribute,
+)
 import os
 import datetime
 
@@ -17,8 +22,10 @@ class ChatHistory(Model):
 
     uuid = UnicodeAttribute(hash_key=True)
     history = JSONAttribute()
-    expires = UTCDateTimeAttribute()
+    expires = TTLAttribute()
 
     def save(self):
-        self.expires = datetime.datetime.now() + datetime.timedelta(days=5)
+        self.expires = datetime.datetime.now(
+            ZoneInfo("Asia/Tokyo")
+        ) + datetime.timedelta(days=5)
         super(ChatHistory, self).save()
