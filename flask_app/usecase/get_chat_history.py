@@ -9,10 +9,11 @@ class GetChatHistory:
     def __init__(self, gemini: IGemini):
         self.gemini = gemini
 
-    def execute(self, chat_id):
+    # TODO
+    def execute(self, chat_id, login_id):
         try:
             # チャット履歴取得
-            chat_history = ChatHistory.get(chat_id)
+            chat_history = ChatHistory.get(hash_key=chat_id, range_key=login_id)
         except DoesNotExist:
             abort(404)
 

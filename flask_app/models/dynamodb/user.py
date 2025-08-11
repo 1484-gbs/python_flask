@@ -4,9 +4,10 @@ from pynamodb.attributes import (
     UnicodeAttribute,
 )
 import os
+from flask_login import UserMixin
 
 
-class User(Model):
+class User(UserMixin, Model):
     class Meta:
         table_name = "user"
         region = "ap-northeast-1"

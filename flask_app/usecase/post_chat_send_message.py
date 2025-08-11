@@ -8,15 +8,16 @@ class PostChatSendMessage:
     def __init__(self, gemini: IGemini):
         self.gemini = gemini
 
-    def execute(self, user_message, chat_id):
+    def execute(self, user_message, chat_id, login_id):
         try:
             history = []
             try:
                 # チャット履歴取得
-                chat_history = ChatHistory.get(chat_id)
+                chat_history = ChatHistory.get(hash_key=chat_id, range_key=login_id)
             except DoesNotExist:
                 chat_history = ChatHistory()
                 chat_history.uuid = chat_id
+                chat_history.login_id = login_id
 
             if chat_history.history:
                 history = self.gemini.json_to_history(chat_history.history)

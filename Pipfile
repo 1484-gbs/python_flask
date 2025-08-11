@@ -12,6 +12,7 @@ pillow = "*"
 markdown = "*"
 pynamodb = "*"
 flask-jwt-extended = "*"
+flask-login = "*"
 
 [dev-packages]
 

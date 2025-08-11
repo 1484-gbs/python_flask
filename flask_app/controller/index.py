@@ -1,6 +1,7 @@
 import datetime
 from zoneinfo import ZoneInfo
 from flask import Blueprint
+from flask_login import login_required
 
 func_index = Blueprint("func_index", __name__)
 

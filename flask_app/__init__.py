@@ -2,12 +2,14 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
+from flask_login import LoginManager
 
 load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
+# login = LoginManager(app)
 jwt = JWTManager(app)
 
 from flask_app.controller.index import func_index

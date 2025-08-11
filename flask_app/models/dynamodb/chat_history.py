@@ -21,6 +21,7 @@ class ChatHistory(Model):
         ttl_attribute = "expires"
 
     uuid = UnicodeAttribute(hash_key=True)
+    login_id = UnicodeAttribute(range_key=True)
     history = JSONAttribute()
     expires = TTLAttribute()
 

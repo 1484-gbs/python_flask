@@ -17,7 +17,8 @@ def get():
 
 @func_chat.get("/chat/<chat_id>")
 def get_path_param(chat_id):
-    history = GetChatHistory(gemini=gemini).execute(chat_id=chat_id)
+    # TODO login_id
+    history = GetChatHistory(gemini=gemini).execute(chat_id=chat_id, login_id="test")
     return render_template("chat.html", chat_id=chat_id, history=history)
 
 
@@ -29,8 +30,9 @@ def post_chat():
     user_message = request.form.get("message")
     if not user_message:
         return f'<div class="message error">メッセージが入力されていません。</div>'
+    # TODO login_id
     return PostChatSendMessage(gemini=gemini).execute(
-        user_message=user_message, chat_id=chat_id
+        user_message=user_message, chat_id=chat_id, login_id="test"
     )
 
 

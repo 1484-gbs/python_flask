@@ -1,7 +1,7 @@
 import http
 import uuid
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.delete_chat_history import DeleteChatHistory
@@ -16,7 +16,10 @@ gemini = Gemini2_0()
 @func_api_chat.get("/chat/<chat_id>")
 @jwt_required()
 def get(chat_id):
-    return jsonify(GetChatHistory(gemini=gemini).execute(chat_id=chat_id))
+    login_id = get_jwt_identity()
+    return jsonify(
+        GetChatHistory(gemini=gemini).execute(chat_id=chat_id, login_id=login_id)
+    )
 
 
 @func_api_chat.post("/chat/<chat_id>")
@@ -32,17 +35,22 @@ def post(chat_id):
     if not user_message:
         raise BadRequest("message is required.")
 
+    login_id = get_jwt_identity()
+
     PostChatSendMessage(gemini=gemini).execute(
-        user_message=user_message, chat_id=chat_id
+        user_message=user_message, chat_id=chat_id, login_id=login_id
     )
 
-    return jsonify(GetChatHistory(gemini=gemini).execute(chat_id=chat_id))
+    return jsonify(
+        GetChatHistory(gemini=gemini).execute(chat_id=chat_id, login_id=login_id)
+    )
 
 
 @func_api_chat.delete("/chat/<chat_id>")
 @jwt_required()
 def delete(chat_id):
-    DeleteChatHistory().execute(chat_id=chat_id)
+    login_id = get_jwt_identity()
+    DeleteChatHistory().execute(chat_id=chat_id, login_id=login_id)
     return "", http.HTTPStatus.NO_CONTENT
 
 
