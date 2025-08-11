@@ -1,5 +1,6 @@
+import uuid
 from flask import Blueprint, render_template, request
-from flask_app.usecase.get_chat_init import GetChatInit
+from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.post_image_generate_content import PostImageGenerateContent
 from flask_app.models.gemini import Gemini1_5, Gemini2_0
@@ -11,13 +12,12 @@ gemini = Gemini2_0()
 
 @func_chat.get("/chat")
 def get():
-    chat_id, _ = GetChatInit(gemini=gemini).execute()
-    return render_template("chat.html", chat_id=chat_id)
+    return render_template("chat.html", chat_id=str(uuid.uuid4()))
 
 
 @func_chat.get("/chat/<chat_id>")
 def get_path_param(chat_id):
-    _, history = GetChatInit(gemini=gemini).execute(chat_id=chat_id)
+    history = GetChatHistory(gemini=gemini).execute(chat_id=chat_id)
     return render_template("chat.html", chat_id=chat_id, history=history)
 
 
