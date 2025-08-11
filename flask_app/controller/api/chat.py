@@ -1,6 +1,7 @@
 import http
 import uuid
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
 from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.delete_chat_history import DeleteChatHistory
@@ -13,11 +14,13 @@ gemini = Gemini2_0()
 
 
 @func_api_chat.get("/chat/<chat_id>")
+@jwt_required()
 def get(chat_id):
     return jsonify(GetChatHistory(gemini=gemini).execute(chat_id=chat_id))
 
 
 @func_api_chat.post("/chat/<chat_id>")
+@jwt_required()
 def post(chat_id):
     try:
         uuid.UUID(chat_id)
@@ -37,6 +40,7 @@ def post(chat_id):
 
 
 @func_api_chat.delete("/chat/<chat_id>")
+@jwt_required()
 def delete(chat_id):
     DeleteChatHistory().execute(chat_id=chat_id)
     return "", http.HTTPStatus.NO_CONTENT
@@ -48,6 +52,7 @@ def error_handler(error):
     return jsonify(dict(message=error.description)), error.code
 
 
-@func_api_chat.errorhandler(Exception)
-def exception_handler(error):
-    return jsonify(dict(message="internal server error.")), 500
+# @func_api_chat.errorhandler(Exception)
+# def exception_handler(error):
+#     print(error)
+#     return jsonify(dict(message="internal server error.")), 500

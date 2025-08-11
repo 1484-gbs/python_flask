@@ -11,6 +11,7 @@ python-dotenv = "*"
 pillow = "*"
 markdown = "*"
 pynamodb = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 
