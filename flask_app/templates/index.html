@@ -1,0 +1,8 @@
+<div>
+    <a href='/hoge'>Hellow World</a>
+    <a href='/chat'>chat</a>
+    <form action="{{url_for('func_login.logout')}}" method="POST">
+        {{ logout_form.csrf_token}}
+        {{ logout_form.logout_button}}
+    </form>
+</div>

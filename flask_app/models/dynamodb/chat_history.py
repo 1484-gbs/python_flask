@@ -20,8 +20,8 @@ class ChatHistory(Model):
         aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
         ttl_attribute = "expires"
 
-    uuid = UnicodeAttribute(hash_key=True)
-    login_id = UnicodeAttribute(range_key=True)
+    login_id = UnicodeAttribute(hash_key=True)
+    chat_id = UnicodeAttribute(range_key=True)
     history = JSONAttribute()
     expires = TTLAttribute()
 

@@ -5,6 +5,7 @@ from pynamodb.attributes import (
 )
 import os
 from flask_login import UserMixin
+from flask_app import login
 
 
 class User(UserMixin, Model):
@@ -21,3 +22,11 @@ class User(UserMixin, Model):
     login_id = UnicodeAttribute(hash_key=True)
     password = UnicodeAttribute()
     # expires = TTLAttribute()
+
+    def get_id(self):
+        return self.login_id
+
+
+@login.user_loader
+def load_user(id):
+    return User.get(hash_key=id)

@@ -20,15 +20,15 @@
             {% endfor %}
         </div>
 
-        <form id="chat-form" hx-post="/chat" hx-target="#chat-window" hx-indicator="#loading-spinner"
-            hx-swap="beforeend" hx-on::before-request="add_message()" hx-on::after-request="this.reset()">
+        <form id="chat-form" hx-post="{{url_for('func_chat.post_chat', chat_id=chat_id)}}" hx-target="#chat-window"
+            hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message()"
+            hx-on::after-request="this.reset()">
             <input type="text" id="message" name="message" placeholder="メッセージを入力..." autocomplete="off" required>
             <button type="submit">送信</button>
-            <input type="hidden" id="chat_id" name="chat_id" value='{{chat_id}}'>
         </form>
-        <form enctype="multipart/form-data" id="chat-form" hx-post="/image" hx-target="#chat-window"
-            hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_filename()"
-            hx-on::after-request="this.reset()">
+        <form enctype="multipart/form-data" id="chat-form" hx-post="{{url_for('func_chat.post_image')}}"
+            hx-target="#chat-window" hx-indicator="#loading-spinner" hx-swap="beforeend"
+            hx-on::before-request="add_filename()" hx-on::after-request="this.reset()">
             <input type="file" name="file" id="file" required>
             <input type="text" id="q" name="q" placeholder="質問を入力..." autocomplete="off">
             <button type="submit">送信</button>

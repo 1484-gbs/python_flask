@@ -17,9 +17,7 @@ gemini = Gemini2_0()
 @jwt_required()
 def get(chat_id):
     login_id = get_jwt_identity()
-    return jsonify(
-        GetChatHistory(gemini=gemini).execute(chat_id=chat_id, login_id=login_id)
-    )
+    return jsonify(GetChatHistory().execute(chat_id=chat_id, login_id=login_id))
 
 
 @func_api_chat.post("/chat/<chat_id>")
@@ -41,9 +39,7 @@ def post(chat_id):
         user_message=user_message, chat_id=chat_id, login_id=login_id
     )
 
-    return jsonify(
-        GetChatHistory(gemini=gemini).execute(chat_id=chat_id, login_id=login_id)
-    )
+    return jsonify(GetChatHistory().execute(chat_id=chat_id, login_id=login_id))
 
 
 @func_api_chat.delete("/chat/<chat_id>")

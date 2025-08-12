@@ -13,6 +13,8 @@ markdown = "*"
 pynamodb = "*"
 flask-jwt-extended = "*"
 flask-login = "*"
+wtforms = "*"
+flask-wtf = "*"
 
 [dev-packages]
 

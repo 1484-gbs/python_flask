@@ -1,9 +1,13 @@
 import uuid
-from flask import Blueprint, render_template, request
+from flask import Blueprint, redirect, render_template, request, url_for
+from flask_login import login_required
 from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.post_image_generate_content import PostImageGenerateContent
 from flask_app.models.gemini import Gemini1_5, Gemini2_0
+from flask_login import current_user
+from werkzeug.exceptions import NotFound
+
 
 func_chat = Blueprint("func_chat", __name__)
 
@@ -11,35 +15,47 @@ gemini = Gemini2_0()
 
 
 @func_chat.get("/chat")
+@login_required
 def get():
-    return render_template("chat.html", chat_id=str(uuid.uuid4()))
+    return redirect(url_for("func_chat.get_path_param", chat_id=str(uuid.uuid4())))
 
 
 @func_chat.get("/chat/<chat_id>")
+@login_required
 def get_path_param(chat_id):
-    # TODO login_id
-    history = GetChatHistory(gemini=gemini).execute(chat_id=chat_id, login_id="test")
+    try:
+        history = GetChatHistory().execute(
+            chat_id=chat_id, login_id=current_user.login_id
+        )
+    except NotFound:
+        history = []
     return render_template("chat.html", chat_id=chat_id, history=history)
 
 
-@func_chat.post("/chat")
-def post_chat():
-    chat_id = request.form.get("chat_id")
-    if not chat_id:
-        return f'<div class="message error">不正なリクエスト。</div>'
+@func_chat.post("/chat/<chat_id>")
+@login_required
+def post_chat(chat_id):
     user_message = request.form.get("message")
     if not user_message:
         return f'<div class="message error">メッセージが入力されていません。</div>'
-    # TODO login_id
     return PostChatSendMessage(gemini=gemini).execute(
-        user_message=user_message, chat_id=chat_id, login_id="test"
+        user_message=user_message, chat_id=chat_id, login_id=current_user.login_id
     )
 
 
 @func_chat.post("/image")
+@login_required
 def post_image():
     if "file" not in request.files:
         return f'<div class="message error">ファイルが選択されていません。</div>'
     file = request.files["file"]
     q = request.form.get("q") if request.form.get("q") else None
     return PostImageGenerateContent(gemini=gemini).execute(file=file, q=q)
+
+
+@func_chat.before_request
+def before_request():
+    # Flask-Loginのリダイレクト前にhtmxリクエストかをチェック
+    if "HX-Request" in request.headers and not current_user.is_authenticated:
+        # htmxリクエストで未認証の場合、HX-Refreshでリロードを指示
+        return "", 200, {"HX-Refresh": "true"}
