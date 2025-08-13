@@ -5,3 +5,5 @@
 - htmx
 - google-generativeai
 - pynamodb
+- flask-jwt-extended
+- flask-login
