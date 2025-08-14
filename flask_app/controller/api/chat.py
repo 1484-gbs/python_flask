@@ -3,6 +3,7 @@ import uuid
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_app.usecase.get_chat_history import GetChatHistory
+from flask_app.usecase.get_chat_history_list import GetChatHistoryList
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.delete_chat_history import DeleteChatHistory
 from flask_app.models.gemini import Gemini1_5, Gemini2_0
@@ -18,6 +19,13 @@ gemini = Gemini2_0()
 def get(chat_id):
     login_id = get_jwt_identity()
     return jsonify(GetChatHistory().execute(chat_id=chat_id, login_id=login_id))
+
+
+@func_api_chat.get("/chat_list")
+@jwt_required()
+def get_list():
+    login_id = get_jwt_identity()
+    return jsonify(GetChatHistoryList().execute(login_id=login_id))
 
 
 @func_api_chat.post("/chat/<chat_id>")

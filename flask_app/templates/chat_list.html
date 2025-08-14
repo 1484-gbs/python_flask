@@ -1,0 +1,12 @@
+<div>
+    <a href="{{url_for('func_chat.get')}}">new chat</a>
+    {% if historys %}
+    <ul>
+        {% for h in historys %}
+        <li>
+            <a href="{{url_for('func_chat.get_path_param', chat_id=h.chat_id)}}">{{h.title}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>

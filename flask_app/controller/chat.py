@@ -2,6 +2,7 @@ import uuid
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_required
 from flask_app.usecase.get_chat_history import GetChatHistory
+from flask_app.usecase.get_chat_history_list import GetChatHistoryList
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.post_image_generate_content import PostImageGenerateContent
 from flask_app.models.gemini import Gemini1_5, Gemini2_0
@@ -30,6 +31,16 @@ def get_path_param(chat_id):
     except NotFound:
         history = []
     return render_template("chat.html", chat_id=chat_id, history=history)
+
+
+@func_chat.get("/chat_list")
+@login_required
+def get_list():
+    try:
+        historys = GetChatHistoryList().execute(login_id=current_user.login_id)
+    except NotFound:
+        historys = []
+    return render_template("chat_list.html", historys=historys)
 
 
 @func_chat.post("/chat/<chat_id>")
