@@ -1,3 +1,5 @@
+{% extends "./common/layout.html" %}
+{% block content %}
 <div>
     <a href="{{url_for('func_chat.get')}}">new chat</a>
     {% if historys %}
@@ -10,3 +12,4 @@
     </ul>
     {% endif %}
 </div>
+{% endblock %}

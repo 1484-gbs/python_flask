@@ -8,8 +8,10 @@ from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.delete_chat_history import DeleteChatHistory
 from flask_app.models.gemini import Gemini1_5, Gemini2_0
 from werkzeug.exceptions import BadRequest
+from flask_app import csrf
 
 func_api_chat = Blueprint("func_api_chat", __name__)
+csrf.exempt(func_api_chat)
 
 gemini = Gemini2_0()
 

@@ -3,6 +3,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from flask_jwt_extended import JWTManager
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 
 load_dotenv()
 app = Flask(__name__)
@@ -11,7 +12,7 @@ app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 login = LoginManager(app)
 login.login_view = "/login"
-
+csrf = CSRFProtect(app)
 jwt = JWTManager(app)
 
 from flask_app.controller.index import func_index

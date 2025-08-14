@@ -1,14 +1,15 @@
+{% extends "./common/layout.html" %}
+{% block content %}
 <div>
-    <a href='/hoge'>Hellow World</a>
+    <ui>
+        <li>
+            <a href='/hoge'>Hellow World</a>
+        </li>
+        <li>
+            <a href="{{url_for('func_chat.get')}}">new chat</a>
+        <li>
+            <a href="{{url_for('func_chat.get_list')}}">chat_list</a>
+        </li>
+    </ui>
 </div>
-<div> <a href="{{url_for('func_chat.get')}}">chat</a>
-</div>
-<div>
-    <a href="{{url_for('func_chat.get_list')}}">chat_list</a>
-</div>
-<div>
-    <form action="{{url_for('func_login.logout')}}" method="POST">
-        {{ logout_form.csrf_token}}
-        {{ logout_form.logout_button}}
-    </form>
-</div>
+{% endblock %}

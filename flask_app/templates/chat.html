@@ -1,43 +1,33 @@
-<!DOCTYPE html>
-<html lang="ja">
+{% extends "./common/layout.html" %}
+{% block content %}
+<h1>Gemini チャットボット</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini チャットボット</title>
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
-    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-
-<body>
-    <h1>Gemini チャットボット</h1>
-
-    <div id="chat-container">
-        <div id="chat-window">
-            {% for h in history%}
-            <div class="message {{h.style}}">{{h.iam}}{{h.message | safe}}</div>
-            {% endfor %}
-        </div>
-
-        <form id="chat-form" hx-post="{{url_for('func_chat.post_chat', chat_id=chat_id)}}" hx-target="#chat-window"
-            hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message()"
-            hx-on::after-request="this.reset()">
-            <input type="text" id="message" name="message" placeholder="メッセージを入力..." autocomplete="off" required>
-            <button type="submit">送信</button>
-        </form>
-        <form enctype="multipart/form-data" id="chat-form" hx-post="{{url_for('func_chat.post_image')}}"
-            hx-target="#chat-window" hx-indicator="#loading-spinner" hx-swap="beforeend"
-            hx-on::before-request="add_filename()" hx-on::after-request="this.reset()">
-            <input type="file" name="file" id="file" required>
-            <input type="text" id="q" name="q" placeholder="質問を入力..." autocomplete="off">
-            <button type="submit">送信</button>
-        </form>
-        <div id="loading-spinner" class="spinner">
-            <div class="dot1"></div>
-            <div class="dot2"></div>
-        </div>
+<div id="chat-container">
+    <div id="chat-window">
+        {% for h in history%}
+        <div class="message {{h.style}}">{{h.iam}}{{h.message | safe}}</div>
+        {% endfor %}
     </div>
-</body>
 
-</html>
+    <form id="chat-form" hx-post="{{url_for('func_chat.post_chat', chat_id=chat_id)}}" hx-target="#chat-window"
+        hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message()"
+        hx-on::after-request="this.reset()">
+        <input type="text" id="message" name="message" placeholder="メッセージを入力..." autocomplete="off" required>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <button type="submit">送信</button>
+    </form>
+    <form enctype="multipart/form-data" id="chat-form" hx-post="{{url_for('func_chat.post_image')}}"
+        hx-target="#chat-window" hx-indicator="#loading-spinner" hx-swap="beforeend"
+        hx-on::before-request="add_filename()" hx-on::after-request="this.reset()">
+        <input type="file" name="file" id="file" required>
+        <input type="text" id="q" name="q" placeholder="質問を入力..." autocomplete="off">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <button type="submit">送信</button>
+    </form>
+    <div id="loading-spinner" class="spinner">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+{% endblock %}

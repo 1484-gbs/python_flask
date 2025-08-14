@@ -2,10 +2,11 @@ from flask import Blueprint, jsonify, request
 from flask_app.usecase.login_create_token import LoginCreateToken
 from werkzeug.exceptions import BadRequest
 from flask_jwt_extended import get_jwt_identity, jwt_required
-
 from flask_app.usecase.login_refresh_token import LoginRefreshToken
+from flask_app import csrf
 
 api_login = Blueprint("api_login", __name__)
+csrf.exempt(api_login)
 
 
 @api_login.post("/login")
@@ -32,6 +33,6 @@ def error_handler(error):
     return jsonify(dict(message=error.description)), error.code
 
 
-@api_login.errorhandler(Exception)
-def exception_handler(error):
-    return jsonify(dict(message="internal server error.")), 500
+# @api_login.errorhandler(Exception)
+# def exception_handler(error):
+#     return jsonify(dict(message="internal server error.")), 500
