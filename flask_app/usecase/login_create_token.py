@@ -2,6 +2,7 @@ from pynamodb.exceptions import DoesNotExist
 from werkzeug.exceptions import BadRequest
 from flask_app.models.dynamodb.user import User
 from flask_jwt_extended import create_access_token, create_refresh_token
+from werkzeug.security import check_password_hash
 
 
 class LoginCreateToken:
@@ -12,8 +13,7 @@ class LoginCreateToken:
         except DoesNotExist:
             raise BadRequest("incorrect login id or password.")
 
-        # TODO
-        if user.password != password:
+        if not check_password_hash(user.password, password):
             raise BadRequest("incorrect login id or password.")
 
         return create_access_token(identity=user.login_id), create_refresh_token(
