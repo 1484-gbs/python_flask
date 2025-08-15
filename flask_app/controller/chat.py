@@ -1,6 +1,8 @@
+import http
 import uuid
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_required
+from flask_app.usecase.create_csv_chat_history import CreateCsvChatHistory
 from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.get_chat_history_list import GetChatHistoryList
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
@@ -41,6 +43,13 @@ def get_list():
     except NotFound:
         historys = []
     return render_template("chat_list.html", historys=historys)
+
+
+@func_chat.post("/chat/<chat_id>/s3upload")
+@login_required
+def s3upload(chat_id):
+    CreateCsvChatHistory().execute(chat_id=chat_id, login_id=current_user.login_id)
+    return "", http.HTTPStatus.OK
 
 
 @func_chat.post("/chat/<chat_id>")

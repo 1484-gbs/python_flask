@@ -16,11 +16,13 @@
     {% block content %}{% endblock %}
     {% if current_user.is_authenticated %}
     <footer>
-        <a href="{{url_for('func_index.index')}}">top</a>
-        <form action="{{url_for('func_login.logout')}}" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            <button type="submit">ログアウト</button>
-        </form>
+        <div class="form-row">
+            <a href="{{url_for('func_index.index')}}">top</a>
+            <form action="{{url_for('func_login.logout')}}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <button type="submit">ログアウト</button>
+            </form>
+        </div>
     </footer>
     {% endif %}
 </body>

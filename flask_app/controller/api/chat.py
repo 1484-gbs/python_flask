@@ -2,6 +2,7 @@ import http
 import uuid
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_app.usecase.create_csv_chat_history import CreateCsvChatHistory
 from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.get_chat_history_list import GetChatHistoryList
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
@@ -28,6 +29,14 @@ def get(chat_id):
 def get_list():
     login_id = get_jwt_identity()
     return jsonify(GetChatHistoryList().execute(login_id=login_id))
+
+
+@func_api_chat.post("/chat/<chat_id>/s3upload")
+@jwt_required()
+def s3_upload_csv(chat_id):
+    login_id = get_jwt_identity()
+    CreateCsvChatHistory().execute(chat_id=chat_id, login_id=login_id)
+    return "", http.HTTPStatus.OK
 
 
 @func_api_chat.post("/chat/<chat_id>")

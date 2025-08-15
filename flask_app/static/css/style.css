@@ -233,3 +233,7 @@ h2 {
 #login_button:hover {
     background-color: #0056b3;
 }
+
+.form-row {
+    display: flex;
+}
