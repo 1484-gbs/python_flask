@@ -60,7 +60,11 @@ def post_image():
     if "file" not in request.files:
         return f'<div class="message error">ファイルが選択されていません。</div>'
     file = request.files["file"]
-    q = request.form.get("q") if request.form.get("q") else None
+    q = (
+        request.form.get("q")
+        if request.form.get("q")
+        else "この画像について詳しく説明してください。"
+    )
     return PostImageGenerateContent(gemini=gemini).execute(file=file, q=q)
 
 

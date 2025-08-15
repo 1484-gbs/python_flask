@@ -7,7 +7,7 @@ class PostImageGenerateContent:
     def __init__(self, gemini: IGemini):
         self.gemini = gemini
 
-    def execute(self, file, q=None):
+    def execute(self, file, q):
         try:
             img = Image.open(file)
             response = self.gemini.generate_content_img(img=img, q=q)

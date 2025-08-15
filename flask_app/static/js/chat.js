@@ -4,7 +4,9 @@ add_message = function () {
 
 add_filename = function () {
     add_input(document.getElementById('file').files[0].name)
-    add_input(document.getElementById('q').value)
+    if (document.getElementById('q').value) {
+        add_input(document.getElementById('q').value)
+    }
 }
 
 add_input = function (input_value) {

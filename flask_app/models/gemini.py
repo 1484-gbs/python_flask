@@ -42,7 +42,7 @@ class Gemini2_0(IGemini):
         self.chat = self.model.start_chat(history=history)
         return self.chat.send_message(user_message)
 
-    def generate_content_img(self, img, q="この画像について詳しく説明してください。"):
+    def generate_content_img(self, img, q):
         return self.model.generate_content([q, img])
 
     def history_to_json(self, history):
