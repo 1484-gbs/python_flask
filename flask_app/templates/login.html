@@ -4,32 +4,36 @@
 <body class="body-login">
     <div class="login-container">
         <h2>ログイン</h2>
-        {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-        <li>
-            <i>
-                <font color="orange">{{ message }}</font>
-            </i>
-        </li>
-        {% endfor %}
-        {% endwith %}
-        <form method="post" action="{{url_for('func_login.login')}}">
-            {{ form.csrf_token }}
-            <div class="input-group">
-                {{ form.login_id.label }} {{ form.login_id() }}
-                {% for error in form.login_id.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-            <div class="input-group">
-                {{ form.password.label }} {{ form.password() }}
-                {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </div>
-            {{ form.login_button() }}
-            <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
-        </form>
+        <div id="form_field">
+            {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+            <li>
+                <i>
+                    <font color="orange">{{ message }}</font>
+                </i>
+            </li>
+            {% endfor %}
+            {% endwith %}
+
+            <form hx-post="{{url_for('func_login.login')}}" hx-target="#form_field" hx-swap="innerHtml"
+                hx::after-request="this.reset();">
+                {{ form.csrf_token }}
+                <div class="input-group">
+                    {{ form.login_id.label }} {{ form.login_id() }}
+                    {% for error in form.login_id.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="input-group">
+                    {{ form.password.label }} {{ form.password() }}
+                    {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                {{ form.login_button() }}
+                <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
+            </form>
+        </div>
     </div>
 </body>
 {% endblock %}
