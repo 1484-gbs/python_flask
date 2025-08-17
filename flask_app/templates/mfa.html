@@ -1,3 +1,4 @@
+{% include 'common/message.html' %}
 <form hx-post="{{url_for('func_login.mfa')}}">
     {{form.csrf_token}}
     <div class="input-group">

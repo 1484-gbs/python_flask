@@ -30,14 +30,14 @@ def login():
         return __redirect()
     form = LoginForm()
     if not form.validate_on_submit():
-        return render_template("login.html", form=form)
+        return render_template("login_contents.html", form=form)
 
     is_mfa = bool(os.getenv("IS_MFA", "False"))
 
     try:
         mfa_id, mfa_code = Login().execute(form=form, is_mfa=is_mfa)
     except BadRequest as e:
-        return e.description, http.HTTPStatus.BAD_REQUEST
+        return render_template("login_contents.html", form=form, message=e.description)
 
     next_page = request.form.get("next")
 
@@ -61,7 +61,7 @@ def mfa():
             mfa_code=form.mfa_code.data,
         )
     except BadRequest as e:
-        return e.description, http.HTTPStatus.BAD_REQUEST
+        return render_template("mfa.html", form=form, message=e.description)
 
     return __redirect(form.next.data)
 

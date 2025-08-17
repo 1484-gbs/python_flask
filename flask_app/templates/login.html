@@ -5,24 +5,7 @@
     <div class="login-container">
         <h2>ログイン</h2>
         <div id="form_field">
-            <form hx-post="{{url_for('func_login.login')}}" hx-target="#form_field" hx-swap="innerHtml"
-                hx::after-request="this.reset();">
-                {{ form.csrf_token }}
-                <div class="input-group">
-                    {{ form.login_id.label }} {{ form.login_id() }}
-                    {% for error in form.login_id.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                </div>
-                <div class="input-group">
-                    {{ form.password.label }} {{ form.password() }}
-                    {% for error in form.password.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                </div>
-                {{ form.login_button() }}
-                <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
-            </form>
+            {% include 'login_contents.html'%}
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
