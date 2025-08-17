@@ -5,16 +5,6 @@
     <div class="login-container">
         <h2>ログイン</h2>
         <div id="form_field">
-            {% with messages = get_flashed_messages() %}
-            {% for message in messages %}
-            <li>
-                <i>
-                    <font color="orange">{{ message }}</font>
-                </i>
-            </li>
-            {% endfor %}
-            {% endwith %}
-
             <form hx-post="{{url_for('func_login.login')}}" hx-target="#form_field" hx-swap="innerHtml"
                 hx::after-request="this.reset();">
                 {{ form.csrf_token }}
@@ -35,5 +25,6 @@
             </form>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 {% endblock %}

@@ -1,5 +1,5 @@
 from wtforms import HiddenField, StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Length
 from flask_wtf import FlaskForm
 
 
@@ -9,5 +9,9 @@ class LoginForm(FlaskForm):
     login_button = SubmitField("ログイン")
 
 
-class CSRFOnlyForm(FlaskForm):
-    csrf_token = HiddenField()
+class MfaForm(FlaskForm):
+    login_id = HiddenField()
+    mfa_id = HiddenField()
+    mfa_code = StringField("認証コード", validators=[DataRequired()])
+    next = HiddenField()
+    login_button = SubmitField("認証")

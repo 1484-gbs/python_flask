@@ -1,0 +1,10 @@
+<form hx-post="{{url_for('func_login.mfa')}}">
+    {{form.csrf_token}}
+    <div class="input-group">
+        {{ form.mfa_code.label }} {{ form.mfa_code() }}
+    </div>
+    {{ form.login_button() }}
+    {{ form.login_id() }}
+    {{ form.mfa_id() }}
+    {{ form.next()}}
+</form>
