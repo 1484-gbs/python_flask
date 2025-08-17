@@ -8,6 +8,7 @@ class CreateCsvChatHistory:
     def execute(self, chat_id, login_id):
         result = GetChatHistory().execute(chat_id=chat_id, login_id=login_id)
         df = pd.DataFrame(result)[["role", "message"]]
+        df["message"] = df["message"].str.replace("<.*?>", "", regex=True)
         with io.BytesIO(
             bytes(df.to_csv(index=False, quoting=1).encode("utf-8"))
         ) as file:

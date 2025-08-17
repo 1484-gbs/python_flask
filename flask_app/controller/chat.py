@@ -38,6 +38,8 @@ def get_path_param(chat_id):
 @func_chat.get("/chat_list")
 @login_required
 def get_list():
+    if not "HX-Request" in request.headers:
+        return redirect(url_for("func_index.index"))
     try:
         historys = GetChatHistoryList().execute(login_id=current_user.login_id)
     except NotFound:
@@ -55,7 +57,7 @@ def s3upload(chat_id):
 @func_chat.post("/chat/<chat_id>")
 @login_required
 def post_chat(chat_id):
-    user_message = request.form.get("message")
+    user_message = request.form.get("user_message")
     if not user_message:
         return f'<div class="message error">メッセージが入力されていません。</div>'
     return PostChatSendMessage(gemini=gemini).execute(

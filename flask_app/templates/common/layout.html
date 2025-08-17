@@ -13,6 +13,7 @@
         <script src="https://unpkg.com/htmx.org@1.9.12"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </header>
+    <h1>Gemini チャットボット</h1>
     {% block content %}{% endblock %}
     {% if current_user.is_authenticated %}
     <footer>

@@ -8,7 +8,8 @@
         <li>
             <a href="{{url_for('func_chat.get')}}">new chat</a>
         <li>
-            <a href="{{url_for('func_chat.get_list')}}">chat_list</a>
+            <a href="#" hx-get="{{url_for('func_chat.get_list')}}" hx-swap="innerHtml"
+                hx-target="#chat-container">chat_list</a>
         </li>
     </ui>
 </div>

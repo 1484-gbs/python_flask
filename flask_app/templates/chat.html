@@ -1,7 +1,7 @@
 {% extends "./common/layout.html" %}
 {% block content %}
-<h1>Gemini チャットボット</h1>
-
+<div style="text-align: center;"><a href="#" hx-get="{{url_for('func_chat.get_list')}}" hx-swap="innerHtml"
+        hx-target="#chat-container">chat_list</a></div>
 <div id="chat-container">
     <div id="chat-window">
         {% for h in history%}
@@ -12,7 +12,7 @@
     <form id="chat-form" hx-post="{{url_for('func_chat.post_chat', chat_id=chat_id)}}" hx-target="#chat-window"
         hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message()"
         hx-on::after-request="this.reset()">
-        <input type="text" id="message" name="message" placeholder="メッセージを入力..." autocomplete="off" required>
+        <input type="text" id="user_message" name="user_message" placeholder="メッセージを入力..." autocomplete="off" required>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <button type="submit">送信</button>
     </form>

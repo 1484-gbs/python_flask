@@ -1,5 +1,5 @@
 add_message = function () {
-    add_input(document.getElementById('message').value)
+    add_input(document.getElementById('user_message').value)
 }
 
 add_filename = function () {
