@@ -12,9 +12,9 @@
     <form id="chat-form" hx-post="{{url_for('func_chat.post_chat', chat_id=chat_id)}}" hx-target="#chat-window"
         hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message()"
         hx-on::after-request="this.reset()">
-        <input type="text" id="user_message" name="user_message" placeholder="メッセージを入力..." autocomplete="off" required>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <button type="submit">送信</button>
+        {{ form.csrf_token}}
+        {{ form.user_message}}
+        {{ form.send(class="button")}}
     </form>
     <form enctype="multipart/form-data" id="chat-form" hx-post="{{url_for('func_chat.post_image')}}"
         hx-target="#chat-window" hx-indicator="#loading-spinner" hx-swap="beforeend"
@@ -22,7 +22,7 @@
         <input type="file" name="file" id="file" required>
         <input type="text" id="q" name="q" placeholder="質問を入力..." autocomplete="off">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <button type="submit">送信</button>
+        <button type="submit" class="button">送信</button>
     </form>
     <div id="loading-spinner" class="spinner">
         <div class="dot1"></div>

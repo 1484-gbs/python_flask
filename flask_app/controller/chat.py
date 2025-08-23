@@ -2,6 +2,7 @@ import http
 import uuid
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_required
+from flask_app.forms.chat_form import ChatForm
 from flask_app.usecase.create_csv_chat_history import CreateCsvChatHistory
 from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.get_chat_history_list import GetChatHistoryList
@@ -32,7 +33,9 @@ def get_path_param(chat_id):
         )
     except NotFound:
         history = []
-    return render_template("chat.html", chat_id=chat_id, history=history)
+    return render_template(
+        "chat.html", chat_id=chat_id, history=history, form=ChatForm()
+    )
 
 
 @func_chat.get("/chat_list")
@@ -57,11 +60,11 @@ def s3upload(chat_id):
 @func_chat.post("/chat/<chat_id>")
 @login_required
 def post_chat(chat_id):
-    user_message = request.form.get("user_message")
-    if not user_message:
-        return f'<div class="message error">メッセージが入力されていません。</div>'
+    form = ChatForm()
     return PostChatSendMessage(gemini=gemini).execute(
-        user_message=user_message, chat_id=chat_id, login_id=current_user.login_id
+        user_message=form.user_message.data,
+        chat_id=chat_id,
+        login_id=current_user.login_id,
     )
 
 
