@@ -1,0 +1,16 @@
+<div id="condition">
+    <form enctype="multipart/form-data" id="image-form" hx-post="{{url_for('func_image.post')}}"
+        hx-target="#image-window" hx-indicator="#loading-spinner" hx-swap="innerHtml"
+        hx-on::after-request="this.reset()">
+        {{ form.csrf_token }}
+        {{ form.file }}
+        {{ form.type }}
+        {{ form.send(class="button")}}
+    </form>
+</div>
+<div id="image-window">
+</div>
+<div id="loading-spinner" class="spinner">
+    <div class="dot1"></div>
+    <div class="dot2"></div>
+</div>

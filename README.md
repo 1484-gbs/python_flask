@@ -7,3 +7,4 @@
 - pynamodb
 - flask-jwt-extended
 - flask-login
+- opencv

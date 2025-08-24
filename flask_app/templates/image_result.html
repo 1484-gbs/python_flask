@@ -1,0 +1,7 @@
+<form enctype="multipart/form-data" id="image-form" hx-post="{{url_for('func_image.s3upload')}}"
+    hx-indicator="#loading-spinner" hx-on::after-request="alert('upload success.');this.reset()">
+    {{ form.csrf_token }}
+    <img src="data:image/png;base64,{{ form.encode_string.data }}">
+    {{ form.upload(class="button") }}
+    {{ form.hidden_encode_string }}
+</form>

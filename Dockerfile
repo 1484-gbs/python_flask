@@ -5,12 +5,11 @@ WORKDIR /usr/src/flask_sample
 # アプリケーションコードをコンテナにコピー
 COPY . /usr/src/flask_sample
 
-RUN apt-get update
-
-# pipのアップデート
-RUN pip install --upgrade pip
-RUN pip install pipenv
-RUN pipenv install --system
+RUN apt-get update && \ 
+    apt-get install -y libgl1-mesa-dev && \
+     pip install --upgrade pip && \ 
+     pip install pipenv && \
+     pipenv install --system
 
 # コンテナのポート5000を公開
 EXPOSE 5000

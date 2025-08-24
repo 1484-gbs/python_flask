@@ -68,7 +68,7 @@ def post_chat(chat_id):
     )
 
 
-@func_chat.post("/image")
+@func_chat.post("/chat_image")
 @login_required
 def post_image():
     if "file" not in request.files:

@@ -1,5 +1,7 @@
 import boto3
 import os
+import io
+import base64
 
 
 class S3Client:
@@ -12,3 +14,14 @@ class S3Client:
             os.getenv("S3_BUCKET"),
             "/".join([login_id, service_type, filename]),
         )
+
+    def upload_file_from_base64_string(
+        self, base64_string, login_id, service_type, filename
+    ):
+        with io.BytesIO(bytes(base64.b64decode(base64_string))) as file:
+            self.upload(
+                file=file,
+                login_id=login_id,
+                service_type=service_type,
+                filename=filename,
+            )

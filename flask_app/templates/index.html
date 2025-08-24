@@ -11,6 +11,9 @@
             <a href="#" hx-get="{{url_for('func_chat.get_list')}}" hx-swap="innerHtml"
                 hx-target="#chat-container">chat_list</a>
         </li>
+        <li>
+            <a href="#" hx-get="{{url_for('func_image.get')}}" hx-target="#chat-container">image convert</a>
+        </li>
     </ui>
 </div>
 {% endblock %}

@@ -78,7 +78,8 @@ h1 {
     /* 角を調整 */
 }
 
-#chat-form {
+#chat-form,
+#image-form {
     display: flex;
     padding: 10px;
     border-top: 1px solid #eee;
@@ -96,7 +97,18 @@ h1 {
     font-size: 16px;
 }
 
-#chat-form .button {
+#image-form li {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    /* 丸みを帯びた入力フィールド */
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+#chat-form .button,
+#image-form .button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -108,26 +120,31 @@ h1 {
     transition: background-color 0.2s ease;
 }
 
-#chat-form button:hover {
+#chat-form button:hover,
+#image-form button:hover {
     background-color: #0056b3;
 }
 
 /* スクロールバーのスタイル（WebKit系ブラウザ向け） */
-#chat-window::-webkit-scrollbar {
+#chat-window::-webkit-scrollbar,
+#image-window::-webkit-scrollbar {
     width: 8px;
 }
 
-#chat-window::-webkit-scrollbar-track {
+#chat-window::-webkit-scrollbar-track,
+#iamge-window::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
 }
 
-#chat-window::-webkit-scrollbar-thumb {
+#chat-window::-webkit-scrollbar-thumb,
+#image-window::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 10px;
 }
 
-#chat-window::-webkit-scrollbar-thumb:hover {
+#chat-window::-webkit-scrollbar-thumb:hover,
+#image-window::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
 
@@ -236,4 +253,10 @@ h2 {
 
 .form-row {
     display: flex;
+}
+
+img {
+    max-width: 50%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
 }

@@ -19,6 +19,7 @@ from flask_app.controller.index import func_index
 from flask_app.controller.hoge import func_hoge
 from flask_app.controller.chat import func_chat
 from flask_app.controller.login import func_login
+from flask_app.controller.image import func_image
 from flask_app.controller.api.chat import func_api_chat
 from flask_app.controller.api.login import api_login
 
@@ -26,5 +27,6 @@ app.register_blueprint(func_index)
 app.register_blueprint(func_hoge)
 app.register_blueprint(func_chat)
 app.register_blueprint(func_login)
+app.register_blueprint(func_image)
 app.register_blueprint(func_api_chat, url_prefix="/api/v1")
 app.register_blueprint(api_login, url_prefix="/api/v1")
