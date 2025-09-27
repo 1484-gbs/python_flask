@@ -12,16 +12,19 @@ class GetChatHistory:
         except DoesNotExist:
             abort(404)
 
-        result = [
-            dict(
-                role=h["role"],
-                style="sent" if h["role"] == "user" else "received",
-                iam="" if h["role"] == "user" else "Gemini:",
-                message=markdown.Markdown().convert(
-                    "".join([part["text"] for part in h["parts"]])
-                ),
-            )
-            for h in chat_history.history
-        ]
+        result = dict(
+            history=[
+                dict(
+                    role=h["role"],
+                    style="sent" if h["role"] == "user" else "received",
+                    iam="" if h["role"] == "user" else "Gemini:",
+                    message=markdown.Markdown().convert(
+                        "".join([part["text"] for part in h["parts"]])
+                    ),
+                )
+                for h in chat_history.history
+            ],
+            auto_delete=chat_history.auto_delete,
+        )
 
         return result

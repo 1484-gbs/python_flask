@@ -4,6 +4,7 @@ from pynamodb.attributes import (
     UnicodeAttribute,
     JSONAttribute,
     TTLAttribute,
+    BooleanAttribute,
 )
 import os
 import datetime
@@ -24,9 +25,14 @@ class ChatHistory(Model):
     chat_id = UnicodeAttribute(range_key=True)
     history = JSONAttribute()
     expires = TTLAttribute()
+    auto_delete = BooleanAttribute()
 
-    def save(self):
-        self.expires = datetime.datetime.now(
-            ZoneInfo("Asia/Tokyo")
-        ) + datetime.timedelta(days=5)
+    def save(self, auto_delete=False):
+        tokyo_tz = ZoneInfo("Asia/Tokyo")
+        self.expires = (
+            datetime.datetime.now(tokyo_tz) + datetime.timedelta(days=5)
+            if auto_delete
+            else datetime.datetime.max.replace(tzinfo=tokyo_tz)
+        )
+        self.auto_delete = auto_delete
         super(ChatHistory, self).save()

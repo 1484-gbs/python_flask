@@ -1,8 +1,10 @@
+import datetime
 import http
 from flask import Blueprint, render_template, request
 from flask_login import login_required
 from flask_login import current_user
 from flask_app.forms.image_form import ImageForm, ImageResultForm
+from flask_app.models.s3_client import S3Client
 from flask_app.usecase.image_conversion import ImageConversion
 
 
@@ -29,8 +31,13 @@ def post():
 @login_required
 def s3upload():
     form = ImageResultForm()
-    file = form.hidden_encode_string.data
-    ImageConversion().s3upload(base64_image_string=file, login_id=current_user.login_id)
+    S3Client().upload_file_from_base64_string(
+        base64_string=form.hidden_encode_string.data,
+        login_id=current_user.login_id,
+        service_type="image_conversion",
+        filename=f"image_conversion_{current_user.login_id}_{datetime.datetime.now()}.png",
+    )
+
     return "", http.HTTPStatus.OK
 
 

@@ -30,11 +30,3 @@ class ImageConversion:
                     cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
         _, data = cv2.imencode(".jpg", img)
         return base64.b64encode(data).decode("utf-8")
-
-    def s3upload(self, base64_image_string, login_id):
-        S3Client().upload_file_from_base64_string(
-            base64_string=base64_image_string,
-            login_id=login_id,
-            service_type="image_conversion",
-            filename=f"image_conversion_{login_id}_{datetime.datetime.now()}.png",
-        )

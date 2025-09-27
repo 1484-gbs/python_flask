@@ -4,17 +4,18 @@
         hx-target="#chat-container">chat_list</a></div>
 <div id="chat-container">
     <div id="chat-window">
-        {% for h in history%}
+        {% for h in chat.history%}
         <div class="message {{h.style}}">{{h.iam}}{{h.message | safe}}</div>
         {% endfor %}
     </div>
 
     <form id="chat-form" hx-post="{{url_for('func_chat.post_chat', chat_id=chat_id)}}" hx-target="#chat-window"
-        hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message()"
-        hx-on::after-request="this.reset()">
+        hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message();"
+        hx-on::after-request="document.getElementById('user_message').value='';">
         {{ form.csrf_token}}
         {{ form.user_message}}
         {{ form.send(class="button")}}
+        {{ form.auto_delete }} {{ form.auto_delete.label }}
     </form>
     <form enctype="multipart/form-data" id="chat-form" hx-post="{{url_for('func_chat.post_image')}}"
         hx-target="#chat-window" hx-indicator="#loading-spinner" hx-swap="beforeend"

@@ -28,13 +28,18 @@ def get():
 @login_required
 def get_path_param(chat_id):
     try:
-        history = GetChatHistory().execute(
-            chat_id=chat_id, login_id=current_user.login_id
-        )
+        chat = GetChatHistory().execute(chat_id=chat_id, login_id=current_user.login_id)
     except NotFound:
-        history = []
+        chat = {}
     return render_template(
-        "chat.html", chat_id=chat_id, history=history, form=ChatForm()
+        "chat.html",
+        chat_id=chat_id,
+        chat=chat,
+        form=ChatForm(
+            auto_delete=(
+                chat["auto_delete"] if chat.get("auto_delete") != None else True
+            )
+        ),
     )
 
 
@@ -61,8 +66,9 @@ def s3upload(chat_id):
 @login_required
 def post_chat(chat_id):
     form = ChatForm()
+    print(form.auto_delete.data)
     return PostChatSendMessage(gemini=gemini).execute(
-        user_message=form.user_message.data,
+        form=form,
         chat_id=chat_id,
         login_id=current_user.login_id,
     )

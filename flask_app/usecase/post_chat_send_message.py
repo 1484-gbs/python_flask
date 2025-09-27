@@ -1,3 +1,4 @@
+from flask_app.forms.chat_form import ChatForm
 from flask_app.models.dynamodb.chat_history import ChatHistory
 from flask_app.models.gemini import IGemini
 import markdown
@@ -8,7 +9,7 @@ class PostChatSendMessage:
     def __init__(self, gemini: IGemini):
         self.gemini = gemini
 
-    def execute(self, user_message, chat_id, login_id):
+    def execute(self, form: ChatForm, chat_id, login_id):
         try:
             history = []
             try:
@@ -22,12 +23,12 @@ class PostChatSendMessage:
             if chat_history.history:
                 history = self.gemini.json_to_history(chat_history.history)
 
-            response = self.gemini.send_message(user_message, history)
+            response = self.gemini.send_message(form.user_message.data, history)
             gemini_response = response.text
 
             # チャット履歴保存
             chat_history.history = self.gemini.history_to_json(self.gemini.chat.history)
-            chat_history.save()
+            chat_history.save(auto_delete=form.auto_delete.data)
 
             return f'<div class="message received">\
                 Gemini: {markdown.Markdown().convert(gemini_response)}</div>'
