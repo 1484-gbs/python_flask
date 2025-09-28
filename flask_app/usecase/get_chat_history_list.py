@@ -11,7 +11,9 @@ class GetChatHistoryList:
         except DoesNotExist:
             abort(404)
 
-        sorted_historys = sorted(chat_historys, key=lambda c: c.expires, reverse=True)
+        sorted_historys = sorted(
+            chat_historys, key=lambda c: c.last_modify_datetime, reverse=True
+        )
 
         return [
             dict(chat_id=c.chat_id, title=c.history[0]["parts"][0]["text"])

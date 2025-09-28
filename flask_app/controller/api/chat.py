@@ -2,6 +2,7 @@ import http
 import uuid
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_app.forms.chat_form import ChatForm
 from flask_app.usecase.create_csv_chat_history import CreateCsvChatHistory
 from flask_app.usecase.get_chat_history import GetChatHistory
 from flask_app.usecase.get_chat_history_list import GetChatHistoryList
@@ -54,8 +55,16 @@ def post(chat_id):
 
     login_id = get_jwt_identity()
 
+    form = ChatForm(user_message=user_message)
+    if post_data.get("auto_delete"):
+        if str(post_data["auto_delete"]) not in set(
+            ["True", "False", "true", "false", "0", "1"]
+        ):
+            raise BadRequest("auto_delete is invalid.")
+        form.auto_delete = post_data["auto_delete"]
+
     PostChatSendMessage(gemini=gemini).execute(
-        user_message=user_message, chat_id=chat_id, login_id=login_id
+        form=form, chat_id=chat_id, login_id=login_id
     )
 
     return jsonify(GetChatHistory().execute(chat_id=chat_id, login_id=login_id))

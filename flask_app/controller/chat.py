@@ -37,7 +37,7 @@ def get_path_param(chat_id):
         chat=chat,
         form=ChatForm(
             auto_delete=(
-                chat["auto_delete"] if chat.get("auto_delete") != None else True
+                chat["auto_delete"] if not chat.get("auto_delete") is None else True
             )
         ),
     )

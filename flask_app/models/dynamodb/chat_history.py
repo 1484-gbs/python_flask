@@ -5,6 +5,7 @@ from pynamodb.attributes import (
     JSONAttribute,
     TTLAttribute,
     BooleanAttribute,
+    UTCDateTimeAttribute,
 )
 import os
 import datetime
@@ -26,13 +27,15 @@ class ChatHistory(Model):
     history = JSONAttribute()
     expires = TTLAttribute()
     auto_delete = BooleanAttribute()
+    last_modify_datetime = UTCDateTimeAttribute()
 
-    def save(self, auto_delete=False):
+    def save(self, auto_delete=True):
         tokyo_tz = ZoneInfo("Asia/Tokyo")
         self.expires = (
             datetime.datetime.now(tokyo_tz) + datetime.timedelta(days=5)
             if auto_delete
             else datetime.datetime.max.replace(tzinfo=tokyo_tz)
         )
-        self.auto_delete = auto_delete
+        self.auto_delete = bool(auto_delete)
+        self.last_modify_datetime = datetime.datetime.now()
         super(ChatHistory, self).save()

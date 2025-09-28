@@ -18,7 +18,7 @@ def post():
     password = post_data.get("password")
     if not login_id or not password:
         raise BadRequest("login_id and pasword is required.")
-    is_mfa = bool(os.getenv("IS_MFA"), False)
+    is_mfa = bool(os.getenv("IS_MFA", "False"))
     ret_val1, ret_val2 = LoginCreateToken().execute(
         login_id=login_id, password=password, is_mfa=is_mfa
     )
