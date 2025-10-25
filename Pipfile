@@ -20,6 +20,7 @@ boto3 = "*"
 numpy = "*"
 opencv-python = "*"
 opencv-contrib-python = "*"
+ollama = "*"
 
 [dev-packages]
 
