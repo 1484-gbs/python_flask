@@ -16,6 +16,14 @@ class GetChatHistoryList:
         )
 
         return [
-            dict(chat_id=c.chat_id, title=c.history[0]["parts"][0]["text"])
+            dict(
+                chat_id=c.chat_id,
+                title=(
+                    c.history[0]["parts"][0]["text"]
+                    if c.history[0].get("parts")
+                    else c.history[0]["content"]
+                ),
+                is_gemini=c.history[0].get("parts"),
+            )
             for c in sorted_historys
         ]

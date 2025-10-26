@@ -24,6 +24,14 @@ def get():
     return redirect(url_for("func_chat.get_path_param", chat_id=str(uuid.uuid4())))
 
 
+@func_chat.get("/chat/ollama")
+@login_required
+def get_ollama():
+    return redirect(
+        url_for("func_chat.get_ollama_path_param", chat_id=str(uuid.uuid4()))
+    )
+
+
 @func_chat.get("/chat/<chat_id>")
 @login_required
 def get_path_param(chat_id):
@@ -31,16 +39,28 @@ def get_path_param(chat_id):
         chat = GetChatHistory().execute(chat_id=chat_id, login_id=current_user.login_id)
     except NotFound:
         chat = {}
-    return render_template(
-        "chat.html",
-        chat_id=chat_id,
-        chat=chat,
-        form=ChatForm(
-            auto_delete=(
-                chat["auto_delete"] if not chat.get("auto_delete") is None else True
-            )
-        ),
+    form = ChatForm(
+        auto_delete=(
+            chat["auto_delete"] if not chat.get("auto_delete") is None else True
+        )
     )
+    form.llm_type = None
+    return render_template("chat.html", chat_id=chat_id, chat=chat, form=form)
+
+
+@func_chat.get("/chat/ollama/<chat_id>")
+@login_required
+def get_ollama_path_param(chat_id):
+    try:
+        chat = GetChatHistory().execute(chat_id=chat_id, login_id=current_user.login_id)
+    except NotFound:
+        chat = {}
+    form = ChatForm(
+        auto_delete=(
+            chat["auto_delete"] if not chat.get("auto_delete") is None else True
+        )
+    )
+    return render_template("chat.html", chat_id=chat_id, chat=chat, form=form)
 
 
 @func_chat.get("/chat_list")
@@ -67,11 +87,18 @@ def s3upload(chat_id):
 def post_chat(chat_id):
     form = ChatForm()
     print(form.auto_delete.data)
-    return PostChatSendMessage(gemini=gemini).execute(
-        form=form,
-        chat_id=chat_id,
-        login_id=current_user.login_id,
-    )
+    if not form.llm_type.data:
+        return PostChatSendMessage(gemini=gemini).execute(
+            form=form,
+            chat_id=chat_id,
+            login_id=current_user.login_id,
+        )
+    else:
+        return PostChatSendMessage().execute_local_llm(
+            form=form,
+            chat_id=chat_id,
+            login_id=current_user.login_id,
+        )
 
 
 @func_chat.post("/chat_image")

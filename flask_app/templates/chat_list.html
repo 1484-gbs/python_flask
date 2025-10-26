@@ -1,10 +1,15 @@
 <a href="{{url_for('func_chat.get')}}">new chat</a>
+<a href="{{url_for('func_chat.get_ollama')}}">new chat ollama</a>
 {% if historys %}
 <ul>
     {% for h in historys %}
     <li>
         <div class="form-row">
+            {% if h.is_gemini %}
             <a href="{{url_for('func_chat.get_path_param', chat_id=h.chat_id)}}">{{h.title}}</a>&nbsp;&nbsp;
+            {% else %}
+            <a href="{{url_for('func_chat.get_ollama_path_param', chat_id=h.chat_id)}}">{{h.title}}</a>&nbsp;&nbsp;
+            {% endif %}
             <form hx-post="{{url_for('func_chat.s3upload', chat_id=h.chat_id)}}" hx-swap="none"
                 hx-on::after-request="alert('Upload completed');">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

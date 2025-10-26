@@ -13,7 +13,8 @@
         hx-indicator="#loading-spinner" hx-swap="beforeend" hx-on::before-request="add_message();"
         hx-on::after-request="document.getElementById('user_message').value='';">
         {{ form.csrf_token}}
-        {{ form.user_message}}
+        {% if form.llm_type %}{{ form.llm_type }}{% endif %}
+        {{ form.user_message }}
         {{ form.send(class="button")}}
         {{ form.auto_delete }} {{ form.auto_delete.label }}
     </form>

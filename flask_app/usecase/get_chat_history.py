@@ -17,9 +17,11 @@ class GetChatHistory:
                 dict(
                     role=h["role"],
                     style="sent" if h["role"] == "user" else "received",
-                    iam="" if h["role"] == "user" else "Gemini:",
+                    iam="" if h["role"] == "user" else h["role"] + ":",
                     message=markdown.Markdown().convert(
                         "".join([part["text"] for part in h["parts"]])
+                        if h.get("parts")
+                        else "".join(h["content"])
                     ),
                 )
                 for h in chat_history.history
