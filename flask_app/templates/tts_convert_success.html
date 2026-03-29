@@ -1,0 +1,5 @@
+<div class="mt-4 p-4 border rounded bg-green-50 border-green-200">
+    <p class="mb-2 font-bold text-green-700">生成成功: {{prompt}}</p>
+    <audio controls src="{{ url_for('func_tts_convert.download', filename=filename) }}" class="w-full"></audio>
+    <a href="{{ url_for('func_tts_convert.download', filename=filename) }}">test</a>
+</div>

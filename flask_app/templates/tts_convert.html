@@ -1,0 +1,35 @@
+{% extends "./common/layout.html" %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-6">ElevenLabs AI Text To Speech</h1>
+    {% include 'common/message.html' %}
+    <form hx-post="{{ url_for('func_tts_convert.tts_convert')}}" hx-target="#result" hx-indicator="#loading"
+        class="space-y-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div>
+            <label class="block text-sm font-medium text-gray-700">音声生成内容を入力</label>
+            <textarea name="prompt" placeholder="例: Upbeat lo-fi hip hop with a relaxing piano melody"
+                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+        </div>
+        <div>
+            <select name="voice_id">
+                {% for v in voices%}
+                <option value="{{v.voice_id}}">{{v.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit"
+            class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            音声生成を開始する
+        </button>
+    </form>
+
+    <div id="loading" class="htmx-indicator mt-6 text-center">
+        <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full">
+        </div>
+        <p class="text-gray-600 mt-2">AIが音声生成中です。1分ほどかかる場合があります...</p>
+    </div>
+
+    <div id="result" class="mt-8"></div>
+</div>
+{% endblock %}

@@ -23,6 +23,7 @@ from flask_app.controller.image import func_image
 from flask_app.controller.api.chat import func_api_chat
 from flask_app.controller.api.login import api_login
 from flask_app.controller.generate_music import func_generate_music
+from flask_app.controller.tts_convert import func_tts_convert
 
 app.register_blueprint(func_index)
 app.register_blueprint(func_hoge)
@@ -32,3 +33,4 @@ app.register_blueprint(func_image)
 app.register_blueprint(func_api_chat, url_prefix="/api/v1")
 app.register_blueprint(api_login, url_prefix="/api/v1")
 app.register_blueprint(func_generate_music, url_prefix="/generate/music")
+app.register_blueprint(func_tts_convert, url_prefix="/tts/convert")

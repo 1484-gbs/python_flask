@@ -18,6 +18,12 @@
         <li>
             <a href="#" hx-get="{{url_for('func_image.get')}}" hx-target="#chat-container">image convert</a>
         </li>
+        <li>
+            <a href="{{url_for('func_generate_music.index')}}">generate music</a>
+        </li>
+        <li>
+            <a href="{{url_for('func_tts_convert.index')}}">text to speech convert</a>
+        </li>
     </ui>
 </div>
 {% endblock %}

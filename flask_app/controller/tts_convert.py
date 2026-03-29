@@ -3,23 +3,25 @@ from flask import Blueprint, render_template, request, send_from_directory
 from flask_login import login_required
 import logging
 
-from flask_app.models.eleven_lab import EXPORT_MUSIC_DIR, ElevenLab
+from flask_app.models.eleven_lab import EXPORT_TTS_DIR, ElevenLab
 
 
-func_generate_music = Blueprint("func_generate_music", __name__)
+func_tts_convert = Blueprint("func_tts_convert", __name__)
 
 logger = logging.getLogger(__name__)
 
 
-@func_generate_music.get("/")
+@func_tts_convert.get("/")
 @login_required
 def index():
-    return render_template("generate_music.html")
+    client = ElevenLab()
+    response = client.get_voices()
+    return render_template("tts_convert.html", voices=response.voices)
 
 
-@func_generate_music.post("/")
+@func_tts_convert.post("/")
 @login_required
-def generate_music():
+def tts_convert():
     prompt = request.form.get("prompt")
     logger.info(f"リクエストを受信: prompt='{prompt}'")
 
@@ -28,22 +30,23 @@ def generate_music():
 
     try:
         logger.info("ElevenLabs API を呼び出し中...")
+        voice_id = request.form.get("voice_id")
 
         client = ElevenLab()
-        audio_iterator = client.generate_music(prompt=prompt)
+        audio_iterator = client.tts_convert(
+            text=prompt, voice_id=voice_id, model_id="eleven_v3"
+        )
 
-        filename = f"music_{os.urandom(4).hex()}.mp3"
-        filepath = os.path.join(EXPORT_MUSIC_DIR, filename)
+        filename = f"tts_{os.urandom(4).hex()}.mp3"
+        filepath = os.path.join(EXPORT_TTS_DIR, filename)
 
         with open(filepath, "wb") as f:
             for chunk in audio_iterator:
                 if chunk:
                     f.write(chunk)
 
-        logger.info(f"保存完了: {filepath}")
-
         return render_template(
-            "generate_music_success.html",
+            "tts_convert_success.html",
             prompt=prompt,
             filename=filename,
         )
@@ -62,8 +65,8 @@ def generate_music():
         )
 
 
-@func_generate_music.get("/download/<filename>")
+@func_tts_convert.get("/download/<filename>")
 @login_required
 def download(filename):
     logging.info(filename)
-    return send_from_directory(EXPORT_MUSIC_DIR, "filename")
+    return send_from_directory(EXPORT_TTS_DIR, filename)
