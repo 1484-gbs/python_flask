@@ -21,6 +21,7 @@ numpy = "*"
 opencv-python = "*"
 opencv-contrib-python = "*"
 ollama = "*"
+elevenlabs = "*"
 
 [dev-packages]
 

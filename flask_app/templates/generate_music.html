@@ -1,0 +1,28 @@
+{% extends "./common/layout.html" %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-6">ElevenLabs AI 作曲アプリ</h1>
+    {% include 'common/message.html' %}
+    <form hx-post="{{ url_for('func_generate_music.generate_music')}}" hx-target="#result" hx-indicator="#loading"
+        class="space-y-4">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div>
+            <label class="block text-sm font-medium text-gray-700">どんな曲を作りますか？</label>
+            <input type="text" name="prompt" placeholder="例: Upbeat lo-fi hip hop with a relaxing piano melody"
+                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+        <button type="submit"
+            class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            作曲を開始する
+        </button>
+    </form>
+
+    <div id="loading" class="htmx-indicator mt-6 text-center">
+        <div class="animate-spin inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full">
+        </div>
+        <p class="text-gray-600 mt-2">AIが作曲中です。1分ほどかかる場合があります...</p>
+    </div>
+
+    <div id="result" class="mt-8"></div>
+</div>
+{% endblock %}
