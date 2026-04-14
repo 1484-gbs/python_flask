@@ -66,4 +66,4 @@ def generate_music():
 @login_required
 def download(filename):
     logging.info(filename)
-    return send_from_directory(EXPORT_MUSIC_DIR, "filename")
+    return send_from_directory(EXPORT_MUSIC_DIR, filename)

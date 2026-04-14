@@ -36,7 +36,7 @@ class IGemini(metaclass=ABCMeta):
 
 class Gemini2_0(IGemini):
     def __init__(self):
-        self.model = super(Gemini2_0, self).set_model("gemini-2.0-flash-lite")
+        self.model = super(Gemini2_0, self).set_model("gemini-2.5-flash-lite")
 
     def send_message(self, user_message, history=[]):
         self.chat = self.model.start_chat(history=history)

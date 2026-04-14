@@ -7,10 +7,7 @@ from pynamodb.exceptions import DoesNotExist
 
 
 class PostChatSendMessage:
-    def __init__(self, gemini: IGemini = None):
-        self.gemini = gemini
-
-    def execute(self, form: ChatForm, chat_id, login_id):
+    def execute(self, gemini: IGemini, form: ChatForm, chat_id, login_id):
         try:
             history = []
             try:
@@ -22,13 +19,13 @@ class PostChatSendMessage:
                 chat_history.login_id = login_id
 
             if chat_history.history:
-                history = self.gemini.json_to_history(chat_history.history)
+                history = gemini.json_to_history(chat_history.history)
 
-            response = self.gemini.send_message(form.user_message.data, history)
+            response = gemini.send_message(form.user_message.data, history)
             gemini_response = response.text
 
             # チャット履歴保存
-            chat_history.history = self.gemini.history_to_json(self.gemini.chat.history)
+            chat_history.history = gemini.history_to_json(gemini.chat.history)
             chat_history.save(auto_delete=form.auto_delete.data)
 
             return f'<div class="message received">\

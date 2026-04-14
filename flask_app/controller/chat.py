@@ -1,7 +1,7 @@
 import http
 import uuid
 from flask import Blueprint, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from flask_app.forms.chat_form import ChatForm
 from flask_app.usecase.create_csv_chat_history import CreateCsvChatHistory
 from flask_app.usecase.get_chat_history import GetChatHistory
@@ -9,13 +9,10 @@ from flask_app.usecase.get_chat_history_list import GetChatHistoryList
 from flask_app.usecase.post_chat_send_message import PostChatSendMessage
 from flask_app.usecase.post_image_generate_content import PostImageGenerateContent
 from flask_app.models.gemini import Gemini1_5, Gemini2_0
-from flask_login import current_user
 from werkzeug.exceptions import NotFound
 
 
 func_chat = Blueprint("func_chat", __name__)
-
-gemini = Gemini2_0()
 
 
 @func_chat.get("/chat")
@@ -88,7 +85,8 @@ def post_chat(chat_id):
     form = ChatForm()
     print(form.auto_delete.data)
     if not form.llm_type.data:
-        return PostChatSendMessage(gemini=gemini).execute(
+        return PostChatSendMessage().execute(
+            gemini=Gemini2_0(),
             form=form,
             chat_id=chat_id,
             login_id=current_user.login_id,
